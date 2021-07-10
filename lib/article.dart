@@ -1,10 +1,33 @@
+import 'dart:convert';
+import 'package:dart_basics/type_aliases.dart';
+
 class Article {
   String _name = '';
   String? _barcode;
   double _price = 0;
-  num _quantity = 0;
+  num quantity = 0;
 
-  Article(this._name, this._barcode, this._price, { quantity = 0 });
+
+  Article(this._name, this._barcode, this._price, { this.quantity = 0 });
+
+  Article.fromJSON( String unparsedJSON ) {
+
+    Map<dynamic, dynamic>  parsedJSON = json.decode( unparsedJSON );
+    this._name = parsedJSON['nombre'];
+    this._barcode = parsedJSON['codBar'];
+    this._price = parsedJSON['precio'];
+
+  }
+
+  Article.fromDartJSON( JSON json ) {
+
+    this._name = json['name'];
+    this._barcode = json['barcode'];
+    this._price = json['price'];
+
+  }
+
+
 
   /*Article( String name, String? barcode, double price, { num quantity = 0, num weight = 0 } ) {
 
@@ -20,7 +43,7 @@ class Article {
       '\nNombre: $_name'
       '\nBarcode: ${_barcode ?? ''}'
       '\nPrecio: $_price'
-      '\nQuantity: $_quantity\n';
+      '\nQuantity: $quantity\n';
 
   String get name => _name;
   set name(String name) => _name = name;
@@ -30,8 +53,5 @@ class Article {
 
   double get price => _price;
   set price(double price) => _price = price;
-
-  num get quantity => _quantity;
-  set quantity(num quantity) => _quantity = quantity;
 
 }
